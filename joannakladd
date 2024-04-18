@@ -1,0 +1,12 @@
+
+
+#########################################################
+# välj ord och kolla om de är nan/null
+# print(train_head['index'].nunique)
+for x in range(1,30):
+    # hitta instanser av tecknade index i datan
+  gest_all = train_head[train_head['index'].str.endswith(x)] #<-- i den första välj 'word' eller 'index', i den andra ordet eller indexen för ordet
+
+  if gest_all.isnull().any().any():
+    print(gest_all.isnull.any())
+#########################################################
