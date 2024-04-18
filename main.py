@@ -1,27 +1,25 @@
-<<<<<<< HEAD
-#### BASBLOCK ####
-#ladda från github
 
-!git clone https://github.com/johahe-1/task-1
+# BASBLOCK
+# Ladda från github
 
 
-#moduler
+# moduler
   #machine-learning
-import sklearn as sk
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split
 
 import pandas as pd
-import csv
 
-  #matte
+#matte
 import numpy as np
 
-  #visualisering
+#visualisering
 #import matplotlib as plt
 import matplotlib.pyplot as plt
-from mpl_toolkits import mplot3d
-from mpl_toolkits.mplot3d import axes3d
+# visualisering
+# import matplotlib as plt
+import matplotlib.pyplot as plt
+# matte
+import numpy as np
+import pandas as pd
 
 #datan
   #används endast för att TRÄNA modellen
@@ -155,8 +153,8 @@ data_array = train.to_numpy()
 
 #dear upp datan inför visualisering
 def chooser(x):
-	choice = 1 #Här väljer man vilken gest man vill ha
-	return x[-1] == choice #kollar sista värdet i listan för att se om det är rätt gest
+  choice = 1 #Här väljer man vilken gest man vill ha
+  return x[-1] == choice #kollar sista värdet i listan för att se om det är rätt gest
 
 gest_all = list(filter(chooser,data_array)) #filter(funktion, iterable) tar en funktion och en lista med data och kör den genom en funktion och listar de objekt som får ett True
 #print(gest_all) #om man vill kolla att man får ut rätt gest
@@ -193,6 +191,4 @@ for x in range(0,len(gest_all)): #printar alla versioner av gesten
   ax.view_init(elev=-70, azim=90)
   plt.legend()
   plt.show()
-=======
 
->>>>>>> origin/main
