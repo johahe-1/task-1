@@ -3,14 +3,14 @@
 # Markus Jalakas, Joanna Efternamn, Johan EFternamn
 
 # Imports
-import pandas as pd # Matte
-import numpy as np # Matte
-import matplotlib as plt # Visualisering
-import matplotlib.pyplot as plt # Visualisering
+import pandas as pd  # Matte
+import numpy as np  # Matte
+import matplotlib as plt  # Visualisering
+import matplotlib.pyplot as plt  # Visualisering
 
 # Hämta datan
-train = pd.read_csv('train-final.csv',encoding='latin-1',sep=',')
-test = pd.read_csv('test-final.csv',encoding='latin-1',sep=',')
+train = pd.read_csv('train-final.csv', encoding='latin-1', sep=',')
+test = pd.read_csv('test-final.csv', encoding='latin-1', sep=',')
 
 # Skapar headers för Pandas dataframes
 
@@ -40,10 +40,12 @@ train_head = pd.DataFrame(reshaped_train, columns=names)
 
 test_head.head()
 
+
 # print(train_head['index'].nunique)
-#for x in range(1,30):
-    # hitta instanser av tecknade index i datan
-#  gest_all = train_head[train_head['index'].str.endswith(x)] #<-- i den första välj 'word' eller 'index', i den andra ordet eller indexen för ordet
+# for x in range(1,30):
+# hitta instanser av tecknade index i datan
+#  gest_all = train_head[train_head['index'].str.endswith(x)] #<-- i den första välj 'word' eller 'index', i den
+#  andra ordet eller indexen för ordet
 
 # if gest_all.isnull().any().any():
 #    print(gest_all.isnull.any())
@@ -52,27 +54,27 @@ test_head.head()
 # Preppar datan för classifyers
 
 # Tar bort ord-tags och skapar blind-versioner som ska dölja svaren för classifyers
-#train_blind = train.drop(['bye', '5'], axis=1)
-#test_blind = test.drop(['wind', '28'], axis=1)
+# train_blind = train.drop(['bye', '5'], axis=1)
+# test_blind = test.drop(['wind', '28'], axis=1)
 
 # gör så att alla blir samma datatyp
-#test_blind = pd.DataFrame(data=test_blind, dtype=np.float64)
-#train_blind = pd.DataFrame(data=train_blind, dtype=np.float64)
+# test_blind = pd.DataFrame(data=test_blind, dtype=np.float64)
+# train_blind = pd.DataFrame(data=train_blind, dtype=np.float64)
 
 
-#for x in range(1,train_head['index'].nunique):
-  #hitta instanser av tecknade index i datan
-#  gest_all = train_head[train_head['index'].str.endswith(x)] #<-- i den första välj 'word' eller 'index', i den andra ordet eller indexen för ordet
+# for x in range(1,train_head['index'].nunique):
+# hitta instanser av tecknade index i datan
+#  gest_all = train_head[train_head['index'].str.endswith(x)] #<-- i den första välj 'word' eller 'index', i den
+#  andra ordet eller indexen för ordet
 
 #  if gest_all.isnull().any().any():
 #    print(gest_all.isnull.any())
 
 
-
 # Display the resulting DataFrame
-#print(gest_all)
+# print(gest_all)
 
-#for i in range(0,len(gest_all)):
+# for i in range(0,len(gest_all)):
 #  gest = gest_all.iloc[i]
 #
 #  gest_f1 = gest.iloc[0:60]
@@ -85,52 +87,52 @@ test_head.head()
 #  mean = y_3.mean()
 #  y_3 = y_3.fillna(mean)
 #  print(y_3)
-  # Replace NaN values with 0
-  #y_3_nan_zero = y_3.fillna(0)
+# Replace NaN values with 0
+# y_3_nan_zero = y_3.fillna(0)
 
 # Calculate the mean of all non-NaN values
-  #mean_non_nan = y_3_nan_zero.values.mean()
-    #for j in gest if gest[j]
+# mean_non_nan = y_3_nan_zero.values.mean()
+# for j in gest if gest[j]
 
 
 # Print the resulting DataFrame
-#print(gest)
+# print(gest)
 
-#nan_rows = x.isna().any(axis=1)
-#print(nan_rows)
+# nan_rows = x.isna().any(axis=1)
+# print(nan_rows)
 
 
-####### KNN ######
+# KNN
 
 # Instantiate the KNN classifier with k=3
-#knn = KNeighborsClassifier(n_neighbors=3)
+# knn = KNeighborsClassifier(n_neighbors=3)
 
 # Train the model using the training sets
-#knn.fit(X_train, y_train)
+# knn.fit(X_train, y_train)
 
 # Predict the response for test dataset
-#y_pred = knn.predict(X_test)
+# y_pred = knn.predict(X_test)
 
 # Model accuracy
-#accuracy = knn.score(X_test, y_test)
-#print('KNN model accuracy: ', accuracy)
-#type(iris)
+# accuracy = knn.score(X_test, y_test)
+# print('KNN model accuracy: ', accuracy)
+# type(iris)
 
 
-#### VISUALISERING ####
+# VISUALISERING
 
-#försöker skapa något som tar ut alla iterationer av en gest.
-#Så nu behövs inte min sorterade fil :(
+# försöker skapa något som tar ut alla iterationer av en gest.
+# Så nu behövs inte min sorterade fil :(
 
-#gör om dataframen till en array
+# gör om dataframen till en array
 
-#print(data_array)
+# print(data_array)
 
-#dear upp datan inför visualisering
+# dear upp datan inför visualisering
 
 def chooser(x):
-  choice = 1 #Här väljer man vilken gest man vill ha
-  return x[-1] == choice #kollar sista värdet i listan för att se om det är rätt gest
+    choice = 1  # Här väljer man vilken gest man vill ha
+    return x[-1] == choice  # kollar sista värdet i listan för att se om det är rätt gest
 
 
 gest_num = 1
@@ -138,42 +140,42 @@ gest_num = 1
 
 def visualisering(data, gestnr):
     # Punkter för kroppsdelar
-  Kropp = [11, 10, 1, 0]
+    kropp = [11, 10, 1, 0]
 
-  H_arm = [1, 3, 5, 7, 9]
-  V_arm = [1, 2, 4, 6, 8]
+    h_arm = [1, 3, 5, 7, 9]
+    v_arm = [1, 2, 4, 6, 8]
 
-  H_ben = [11, 12, 14, 16, 18]
-  V_ben = [11, 13, 15, 17, 19]
+    h_ben = [11, 12, 14, 16, 18]
+    v_ben = [11, 13, 15, 17, 19]
 
-  data = train.to_numpy()
+    data = train.to_numpy()
 
-  gest_all = list(filter(chooser, data))  # filter(funktion, iterable) tar en funktion och en lista med data och kör den genom en funktion och listar de objekt som får ett True
-  # print(gest_all) #om man vill kolla att man får ut rätt gest
+    gest_all = list(filter(chooser, data))  # filter(funktion, iterable) tar en funktion och en lista med data och kör
+    # den genom en funktion och listar de objekt som får ett True
+    # print(gest_all) #om man vill kolla att man får ut rätt gest
 
-  for x in range(0,len(gest_all)): # Printar alla verisioner av den valda gesten
-    gest = gest_all[x]
+    for x in range(0, len(gest_all)):  # Printar alla verisioner av den valda gesten
+        gest = gest_all[x]
 
-    gest_f1 = gest[0:60]
+        gest_f1 = gest[0:60]
 
-    x = gest_f1[0::3]
-    y = gest_f1[1::3]
-    z = gest_f1[2::3]
-    # print(x,y,z, sep='\n') #printar kordinaterna
+        x = gest_f1[0::3]
+        y = gest_f1[1::3]
+        z = gest_f1[2::3]
+        # print(x,y,z, sep='\n') #printar kordinaterna
 
-    print(gest[-2])
+        print(gest[-2])
 
-    ax = plt.axes(projection='3d')
-    ax.scatter(x, y, z)
-    ax.plot(x[Kropp], y[Kropp], z[Kropp], label="Kropp")
-    ax.plot(x[H_arm], y[H_arm], z[H_arm], label="Höger Arm")
-    ax.plot(x[V_arm], y[V_arm], z[V_arm], label="Vänster Arm")
-    ax.plot(x[H_ben], y[H_ben], z[H_ben], label="Höger Ben")
-    ax.plot(x[V_ben], y[V_ben], z[V_ben], label="Vänster Ben")
+        ax = plt.axes(projection='3d')
+        ax.scatter(x, y, z)
+        ax.plot(x[kropp], y[kropp], z[kropp], label="Kropp")
+        ax.plot(x[h_arm], y[h_arm], z[h_arm], label="Höger Arm")
+        ax.plot(x[v_arm], y[v_arm], z[v_arm], label="Vänster Arm")
+        ax.plot(x[h_ben], y[h_ben], z[h_ben], label="Höger Ben")
+        ax.plot(x[v_ben], y[v_ben], z[v_ben], label="Vänster Ben")
 
-    ax.view_init(elev=-70, azim=90)
-    plt.legend()
-    plt.show()
+        ax.view_init(elev=-70, azim=90)
+        plt.legend()
+        plt.show()
 
-
-visualisering(train, gest_num)
+#visualisering(train, gest_num)
