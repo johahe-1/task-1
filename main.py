@@ -1,32 +1,17 @@
 
-# BASBLOCK
-
-# moduler
-  # machine-learning
-import pandas as pd
-
-  #matte
-import numpy as np
-
-  #visualisering
-#import matplotlib as plt
-import matplotlib.pyplot as plt
-# visualisering
-# import matplotlib as plt
-import matplotlib.pyplot as plt
-# matte
-import numpy as np
-
-#datan
-  #används endast för att TRÄNA modellen
-train = pd.read_csv('https://raw.githubusercontent.com/johahe-1/task-1/main/train-final.csv',encoding='latin-1',sep=',')
-  #användst endast för att TESTA modellen
-test = pd.read_csv('https://raw.githubusercontent.com/johahe-1/task-1/main/test-final.csv',encoding='latin-1',sep=',')
+# Imports
+import pandas as pd # Matte
+import numpy as np # Matte
+import matplotlib as plt # Visualisering
+import matplotlib.pyplot as plt # Visualisering
 
 
 
+# Hämta datan
+train = pd.read_csv('train-final.csv',encoding='latin-1',sep=',')
+test = pd.read_csv('test-final.csv',encoding='latin-1',sep=',')
 
-### GER DATAFRAMSEN HEADER MED VAD KOLUMNERNA INNEHÅLLER###
+# GER DATAFRAMSEN HEADER MED VAD KOLUMNERNA INNEHÅLLER###
 
 # alla xyz- och vinkel-koord
 num_sets_space = 60
@@ -53,19 +38,15 @@ train_head = pd.DataFrame(reshaped_train, columns=names)
 
 test_head.head()
 
-#print(train_head['index'].nunique)
+# print(train_head['index'].nunique)
 for x in range(1,30):
-  #hitta instanser av tecknade index i datan
+    # hitta instanser av tecknade index i datan
   gest_all = train_head[train_head['index'].str.endswith(x)] #<-- i den första välj 'word' eller 'index', i den andra ordet eller indexen för ordet
 
   if gest_all.isnull().any().any():
     print(gest_all.isnull.any())
 
-
-
-
-
- #### PREPPAR DATAN FÖR CLASSIFYERS ####
+# PREPPAR DATAN FÖR CLASSIFYERS ####
 
 # Tar bort ord-tags och skapar blind-versioner som ska dölja svaren för classifyers
 #train_blind = train.drop(['bye', '5'], axis=1)
