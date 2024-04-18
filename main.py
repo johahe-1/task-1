@@ -1,17 +1,14 @@
 
 # BASBLOCK
-# Ladda från github
-
 
 # moduler
-# machine-learning
-
+  # machine-learning
 import pandas as pd
 
-#matte
+  #matte
 import numpy as np
 
-#visualisering
+  #visualisering
 #import matplotlib as plt
 import matplotlib.pyplot as plt
 # visualisering
@@ -19,7 +16,6 @@ import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 # matte
 import numpy as np
-import pandas as pd
 
 #datan
   #används endast för att TRÄNA modellen
