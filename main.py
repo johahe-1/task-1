@@ -1,3 +1,6 @@
+# D0033E, Machine Learning and Pattern recognition
+# [Insert groupname here]
+# Markus Jalakas, Joanna Efternamn, Johan EFternamn
 
 # Imports
 import pandas as pd # Matte
@@ -9,12 +12,13 @@ import matplotlib.pyplot as plt # Visualisering
 train = pd.read_csv('train-final.csv',encoding='latin-1',sep=',')
 test = pd.read_csv('test-final.csv',encoding='latin-1',sep=',')
 
-# GER DATAFRAMSEN HEADER MED VAD KOLUMNERNA INNEHÅLLER###
+# Skapar headers för Pandas dataframes
 
-# alla xyz- och vinkel-koord
+# Set för XYZ
 num_sets_space = 60
 num_cols_per_set_space = 3
 
+# Set för koordinater
 num_sets_angle = 60
 num_cols_per_set_angle = 1
 
@@ -37,14 +41,15 @@ train_head = pd.DataFrame(reshaped_train, columns=names)
 test_head.head()
 
 # print(train_head['index'].nunique)
-for x in range(1,30):
+#for x in range(1,30):
     # hitta instanser av tecknade index i datan
-  gest_all = train_head[train_head['index'].str.endswith(x)] #<-- i den första välj 'word' eller 'index', i den andra ordet eller indexen för ordet
+#  gest_all = train_head[train_head['index'].str.endswith(x)] #<-- i den första välj 'word' eller 'index', i den andra ordet eller indexen för ordet
 
-  if gest_all.isnull().any().any():
-    print(gest_all.isnull.any())
+# if gest_all.isnull().any().any():
+#    print(gest_all.isnull.any())
 
-# PREPPAR DATAN FÖR CLASSIFYERS ####
+
+# Preppar datan för classifyers
 
 # Tar bort ord-tags och skapar blind-versioner som ska dölja svaren för classifyers
 #train_blind = train.drop(['bye', '5'], axis=1)
@@ -55,13 +60,12 @@ for x in range(1,30):
 #train_blind = pd.DataFrame(data=train_blind, dtype=np.float64)
 
 
-
-for x in range(1,train_head['index'].nunique):
+#for x in range(1,train_head['index'].nunique):
   #hitta instanser av tecknade index i datan
-  gest_all = train_head[train_head['index'].str.endswith(x)] #<-- i den första välj 'word' eller 'index', i den andra ordet eller indexen för ordet
+#  gest_all = train_head[train_head['index'].str.endswith(x)] #<-- i den första välj 'word' eller 'index', i den andra ordet eller indexen för ordet
 
-  if gest_all.isnull().any().any():
-    print(gest_all.isnull.any())
+#  if gest_all.isnull().any().any():
+#    print(gest_all.isnull.any())
 
 
 
@@ -87,9 +91,6 @@ for x in range(1,train_head['index'].nunique):
 # Calculate the mean of all non-NaN values
   #mean_non_nan = y_3_nan_zero.values.mean()
     #for j in gest if gest[j]
-
-
-
 
 
 # Print the resulting DataFrame
@@ -122,48 +123,57 @@ for x in range(1,train_head['index'].nunique):
 #Så nu behövs inte min sorterade fil :(
 
 #gör om dataframen till en array
-data_array = train.to_numpy()
 
 #print(data_array)
 
 #dear upp datan inför visualisering
+
 def chooser(x):
   choice = 1 #Här väljer man vilken gest man vill ha
   return x[-1] == choice #kollar sista värdet i listan för att se om det är rätt gest
 
-gest_all = list(filter(chooser,data_array)) #filter(funktion, iterable) tar en funktion och en lista med data och kör den genom en funktion och listar de objekt som får ett True
-#print(gest_all) #om man vill kolla att man får ut rätt gest
 
-Kropp = [11, 10, 1, 0]
-
-H_arm = [1, 3, 5, 7, 9]
-V_arm = [1, 2, 4, 6, 8]
-
-H_ben = [11, 12, 14, 16, 18]
-V_ben = [11, 13, 15, 17, 19]
+gest_num = 1
 
 
-for x in range(0,len(gest_all)): #printar alla versioner av gesten
-  gest = gest_all[x]
+def visualisering(data, gestnr):
+    # Punkter för kroppsdelar
+  Kropp = [11, 10, 1, 0]
 
-  gest_f1 = gest[0:60]
+  H_arm = [1, 3, 5, 7, 9]
+  V_arm = [1, 2, 4, 6, 8]
 
-  x = gest_f1[0::3]
-  y = gest_f1[1::3]
-  z = gest_f1[2::3]
-  #print(x,y,z, sep='\n') #printar kordinaterna
+  H_ben = [11, 12, 14, 16, 18]
+  V_ben = [11, 13, 15, 17, 19]
 
-  print(gest[-2])
+  data = train.to_numpy()
 
-  ax = plt.axes(projection = '3d')
-  ax.scatter(x, y, z)
-  ax.plot(x[Kropp], y[Kropp], z[Kropp], label = "Kropp")
-  ax.plot(x[H_arm], y[H_arm], z[H_arm], label = "Höger Arm")
-  ax.plot(x[V_arm], y[V_arm], z[V_arm], label = "Vänster Arm")
-  ax.plot(x[H_ben], y[H_ben], z[H_ben], label = "Höger Ben")
-  ax.plot(x[V_ben], y[V_ben], z[V_ben], label = "Vänster Ben")
+  gest_all = list(filter(chooser, data))  # filter(funktion, iterable) tar en funktion och en lista med data och kör den genom en funktion och listar de objekt som får ett True
+  # print(gest_all) #om man vill kolla att man får ut rätt gest
 
-  ax.view_init(elev=-70, azim=90)
-  plt.legend()
-  plt.show()
+  for x in range(0,len(gest_all)): # Printar alla verisioner av den valda gesten
+    gest = gest_all[x]
 
+    gest_f1 = gest[0:60]
+
+    x = gest_f1[0::3]
+    y = gest_f1[1::3]
+    z = gest_f1[2::3]
+    # print(x,y,z, sep='\n') #printar kordinaterna
+
+    print(gest[-2])
+
+    ax = plt.axes(projection='3d')
+    ax.scatter(x, y, z)
+    ax.plot(x[Kropp], y[Kropp], z[Kropp], label="Kropp")
+    ax.plot(x[H_arm], y[H_arm], z[H_arm], label="Höger Arm")
+    ax.plot(x[V_arm], y[V_arm], z[V_arm], label="Vänster Arm")
+    ax.plot(x[H_ben], y[H_ben], z[H_ben], label="Höger Ben")
+    ax.plot(x[V_ben], y[V_ben], z[V_ben], label="Vänster Ben")
+
+    ax.view_init(elev=-70, azim=90)
+    plt.legend()
+    plt.show()
+
+
+visualisering(train, gest_num)
