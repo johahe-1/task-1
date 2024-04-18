@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #### BASBLOCK ####
 #ladda från github
 
@@ -191,3 +192,6 @@ for x in range(0,len(gest_all)): #printar alla versioner av gesten
   ax.view_init(elev=-70, azim=90)
   plt.legend()
   plt.show()
+=======
+
+>>>>>>> origin/main
