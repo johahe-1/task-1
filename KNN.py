@@ -7,3 +7,9 @@ from sklearn.neighbors import KNeighborsClassifier
 
 train = pd.read_csv('train-final.csv', encoding='latin-1', sep=',')
 test = pd.read_csv('test-final.csv', encoding='latin-1', sep=',')
+
+def namn(data, gesture):
+    for coordinate in data:
+        if coordinate is:
+            return
+    return
