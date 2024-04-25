@@ -36,6 +36,10 @@ train_head = pd.DataFrame(reshaped_train, columns=names)
 test_head.head()
 
 
+
+
+
+
 # print(train_head['index'].nunique)
 # for x in range(1,30):
 # hitta instanser av tecknade index i datan
