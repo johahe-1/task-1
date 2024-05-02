@@ -1,140 +1,149 @@
 
+###########################################################################
+############### IMPORTS AND DATA #########################################
+###########################################################################
+
 # Imports
+import warnings # removes annoying error message
+warnings.simplefilter(action='ignore', category=FutureWarning) # removes annoying error message
 import pandas as pd # Matte
 import numpy as np # Matte
 import matplotlib as plt # Visualisering
 import matplotlib.pyplot as plt # Visualisering
 
-
-
-# Hämta datan
+# path to data from directory
 train = pd.read_csv('train-final.csv',encoding='latin-1',sep=',')
 test = pd.read_csv('test-final.csv',encoding='latin-1',sep=',')
 
-# GER DATAFRAMSEN HEADER MED VAD KOLUMNERNA INNEHÅLLER###
+###########################################################################
+############### GER DATAFRAMSEN HEADER MED VAD KOLUMNERNA INNEHÅLLER#######
+###########################################################################
 
-# alla xyz- och vinkel-koord
+# all xyz and angle coordinates
 num_sets_space = 60
 num_cols_per_set_space = 3
 
 num_sets_angle = 60
 num_cols_per_set_angle = 1
 
-# Generates the coord with appropriate index and creates a 1d dataframe
+# generates the coord with appropriate index and creates a 1d dataframe
 space_names = [f'{coord}_{i}' for i in range(1, num_sets_space + 1) for coord in ['x', 'y', 'z']]
 angle_names = [f'{coord}_{i}' for i in range(1, num_sets_angle + 1) for coord in ['v']]
 index_names = ['word', 'index']
 
-# Combine the lists into one row DataFrame
+# combine the lists into one row DataFrame
 names = space_names + angle_names + index_names
 
-# Reshape dataframes into two-dimensional arrays
+# reshape dataframes into two-dimensional arrays
 reshaped_test = np.reshape(test.values, (-1, test.shape[-1]))
 reshaped_train = np.reshape(train.values, (-1, train.shape[-1]))
 
-# Create a DataFrame with names as index and reshaped_test as data
+# create a DataFrame with names as index and reshaped_test as data
 test_head = pd.DataFrame(reshaped_test, columns=names)
 train_head = pd.DataFrame(reshaped_train, columns=names)
 
-test_head.head()
+###########################################################################
+# PREPARING DATA FOR ALGORITHMS ###########################################
+###########################################################################
 
-# print(train_head['index'].nunique)
-for x in range(1,30):
-    # hitta instanser av tecknade index i datan
-  gest_all = train_head[train_head['index'].str.endswith(x)] #<-- i den första välj 'word' eller 'index', i den andra ordet eller indexen för ordet
-
-  if gest_all.isnull().any().any():
-    print(gest_all.isnull.any())
-
-# PREPPAR DATAN FÖR CLASSIFYERS ####
-
-# Tar bort ord-tags och skapar blind-versioner som ska dölja svaren för classifyers
-#train_blind = train.drop(['bye', '5'], axis=1)
-#test_blind = test.drop(['wind', '28'], axis=1)
-
-# gör så att alla blir samma datatyp
-#test_blind = pd.DataFrame(data=test_blind, dtype=np.float64)
-#train_blind = pd.DataFrame(data=train_blind, dtype=np.float64)
+# here the data is prepared for testing and training
+ # hides the 'word'- and 'index'-columns
+train_blind = train_head.drop(['word', 'index'], axis=1)
+test_blind = test_head.drop(['word', 'index'], axis=1)
 
 
-
-for x in range(1,train_head['index'].nunique):
-  #hitta instanser av tecknade index i datan
-  gest_all = train_head[train_head['index'].str.endswith(x)] #<-- i den första välj 'word' eller 'index', i den andra ordet eller indexen för ordet
-
-  if gest_all.isnull().any().any():
-    print(gest_all.isnull.any())
+ # makes everything into the same datatype
+test_blind = pd.DataFrame(data=test_blind, dtype=np.float64)
+train_blind = pd.DataFrame(data=train_blind, dtype=np.float64)
 
 
+# the algorithm below that removes NaN elements can segment the data, and can be used for other algorithms if needed
 
-# Display the resulting DataFrame
+###########################################################################
+# REMOVING NAN ELEMENTS ####### ###########################################
+###########################################################################
+# this process will be automated further for the whole dataframe, but this is a demo that shows how and that it works for single words
+
+# find rows with NaN values anywhere in the DataFrame
+rows_with_nan = train_head[train_head.isna().any(axis=1)]
+
+# display the words of 'word' column for rows with NaN values
+words_with_nan = rows_with_nan[['word','index']]
+#print(words_with_nan)
+
+# then this to be able to select and save an index
+pick = 5 # <-- change to a number 0:6 to choose a word from words_with_nan
+
+# what word was picked:
+nan_word = words_with_nan['index'].iloc[pick]
+print(words_with_nan.iloc[pick])
+
+# here all instances of the word are stored in gest_all
+gest_all = train_head[train_head['index'] == nan_word]
 #print(gest_all)
 
-#for i in range(0,len(gest_all)):
-#  gest = gest_all.iloc[i]
-#
-#  gest_f1 = gest.iloc[0:60]
-#
-#  x = gest_f1.iloc[0::3]
-#  y = gest_f1.iloc[1::3]
-#  z = gest_f1.iloc[2::3]
-#
-#  y_3 = y.iloc[2::20]
-#  mean = y_3.mean()
-#  y_3 = y_3.fillna(mean)
-#  print(y_3)
-  # Replace NaN values with 0
-  #y_3_nan_zero = y_3.fillna(0)
+# check if there are any NaN values in the DataFrame for frame 1 of 'word'
+if gest_all[0:60].isna().any().any():
+    print("DataFrame contains NaN elements")
+else:
+    print("DataFrame does not contain NaN elements")
 
-# Calculate the mean of all non-NaN values
-  #mean_non_nan = y_3_nan_zero.values.mean()
-    #for j in gest if gest[j]
+# now to choose a frame: gest_f1, here the NaN-values of that frame for 'word' are located and replaced in train_head
 
+# creates dictionaries to hold values for each index
+x_values = {}
+y_values = {}
+z_values = {}
 
+# loops through each instance
+for i in range(len(gest_all)):
+  gest = gest_all.iloc[i]
+  gest_f1 = gest.iloc[0:60] # <-- this is the frame we choose
 
+  # extracts index from column names
+  for column in gest_f1.index:
+    index = int(column.split('_')[1]) # chooses all column-indexes in interval
 
+    # separates values by index and stores them in the corresponding dictionary
+    if column.startswith('x'):
+      x_values.setdefault(index, []).append(gest_f1[column])
+    elif column.startswith('y'):
+      y_values.setdefault(index, []).append(gest_f1[column])
+    elif column.startswith('z'):
+      z_values.setdefault(index, []).append(gest_f1[column])
 
-# Print the resulting DataFrame
-#print(gest)
+'''
+# print values for each index
+for index in x_values.keys():
+  print(f"x_{index}: {x_values[index]}")
+  print(f"y_{index}: {y_values[index]}")
+  print(f"z_{index}: {z_values[index]}")
+  print()
+'''
+# now finally replace all NaN in the main dataframe
+# iterate over each dictionary
+for prefix, dictionary in [('x', x_values), ('y', y_values), ('z', z_values)]:
+    # iterate over each column index
+    for index, values in dictionary.items():
+        # get the column name
+        column_name = f'{prefix}_{index}'
+        # replace NaN values with the mean of non-NaN values for the corresponding column in main dataframe
+        train_head[column_name].fillna(np.nanmean(values), inplace=True)
+        # for element in main dataframe all NaN are now replaced with the mean of respective list
 
-#nan_rows = x.isna().any(axis=1)
-#print(nan_rows)
+# checks again if the word from the modified dataframe train_head contains any NaN
+gest_all_filled = train_head[train_head['index'] == nan_word]
+if gest_all_filled.isna().any().any():
+    print("DataFrame still contains NaN elements")
+else:
+    print("DataFrame does not contain NaN elements anymore")
 
+###########################################################################
+############################## VISUALISERING ##############################
+###########################################################################
 
-####### KNN ######
-
-# Instantiate the KNN classifier with k=3
-#knn = KNeighborsClassifier(n_neighbors=3)
-
-# Train the model using the training sets
-#knn.fit(X_train, y_train)
-
-# Predict the response for test dataset
-#y_pred = knn.predict(X_test)
-
-# Model accuracy
-#accuracy = knn.score(X_test, y_test)
-#print('KNN model accuracy: ', accuracy)
-#type(iris)
-
-
-#### VISUALISERING ####
-
-#försöker skapa något som tar ut alla iterationer av en gest.
-#Så nu behövs inte min sorterade fil :(
-
-#gör om dataframen till en array
-data_array = train.to_numpy()
-
-#print(data_array)
-
-#dear upp datan inför visualisering
-def chooser(x):
-  choice = 1 #Här väljer man vilken gest man vill ha
-  return x[-1] == choice #kollar sista värdet i listan för att se om det är rätt gest
-
-gest_all = list(filter(chooser,data_array)) #filter(funktion, iterable) tar en funktion och en lista med data och kör den genom en funktion och listar de objekt som får ett True
-#print(gest_all) #om man vill kolla att man får ut rätt gest
+# changes typ from dataframe to array
+gest_all = gest_all_filled.to_numpy() #<-- gest_all for gestures with NaN, gest_all_filled for replaced NaN
 
 Kropp = [11, 10, 1, 0]
 
@@ -144,28 +153,29 @@ V_arm = [1, 2, 4, 6, 8]
 H_ben = [11, 12, 14, 16, 18]
 V_ben = [11, 13, 15, 17, 19]
 
+# empty figure to plot in
+fig = plt.figure(figsize=(12, 7))
 
-for x in range(0,len(gest_all)): #printar alla versioner av gesten
-  gest = gest_all[x]
+for j in range(0,len(gest_all)): # plots all instances of gesture
+    gest = gest_all[j]
+    gest_f1 = gest[0:60]  #<-- choose frame 1
 
-  gest_f1 = gest[0:60]
+    x = gest_f1[0::3]
+    y = gest_f1[1::3]
+    z = gest_f1[2::3]
+    #print(x,y,z, sep='\n') #prints coordinates
 
-  x = gest_f1[0::3]
-  y = gest_f1[1::3]
-  z = gest_f1[2::3]
-  #print(x,y,z, sep='\n') #printar kordinaterna
+    ax = fig.add_subplot(5, 5, j+1, projection='3d')
+    ax.scatter(x, y, z, s = 2)
+    ax.plot(x[Kropp], y[Kropp], z[Kropp], label = "Kropp")
+    ax.plot(x[H_arm], y[H_arm], z[H_arm], label = "Höger Arm")
+    ax.plot(x[V_arm], y[V_arm], z[V_arm], label = "Vänster Arm")
+    ax.plot(x[H_ben], y[H_ben], z[H_ben], label = "Höger Ben")
+    ax.plot(x[V_ben], y[V_ben], z[V_ben], label = "Vänster Ben")
 
-  print(gest[-2])
+    ax.view_init(elev=-70, azim=90)
+    ax.legend(fontsize=2)
 
-  ax = plt.axes(projection = '3d')
-  ax.scatter(x, y, z)
-  ax.plot(x[Kropp], y[Kropp], z[Kropp], label = "Kropp")
-  ax.plot(x[H_arm], y[H_arm], z[H_arm], label = "Höger Arm")
-  ax.plot(x[V_arm], y[V_arm], z[V_arm], label = "Vänster Arm")
-  ax.plot(x[H_ben], y[H_ben], z[H_ben], label = "Höger Ben")
-  ax.plot(x[V_ben], y[V_ben], z[V_ben], label = "Vänster Ben")
-
-  ax.view_init(elev=-70, azim=90)
-  plt.legend()
-  plt.show()
+plt.tight_layout()
+plt.show()
 

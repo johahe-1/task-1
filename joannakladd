@@ -1,5 +1,67 @@
 
 
+för task 2
+####från labben##########
+
+
+
+
+
+#check for NaN values in base joints
+# Initialize lists to collect column data
+x_data, y_data, z_data = [], [], []
+
+# Loop to collect data from each column set
+for j in range(0, 2):
+    for i in range( j * 20 + 11):
+        x_col = f'x_{i}'
+        y_col = f'y_{i}'
+        z_col = f'z_{i}'
+
+        # Collect data from each column if they exist in the DataFrame
+        if x_col in train_head.columns and y_col in train_head.columns and z_col in train_head.columns:
+            x_data.append(train_head[x_col])
+            y_data.append(train_head[y_col])
+            z_data.append(train_head[z_col])
+
+# Convert lists of series into single series by concatenating
+x_concat = pd.concat(x_data)
+y_concat = pd.concat(y_data)
+z_concat = pd.concat(z_data)
+
+# List of all concatenated data series
+all_data = [x_concat, y_concat, z_concat]
+
+# Check each concatenated list for NaN values
+for idx, data_series in enumerate(all_data, 1):
+    has_nans = data_series.isna().any()
+    print(f"Data series {idx} contains NaN values: {has_nans}")
+
+ ###################################################################
+
+- använd test_blind eller inte? iallafall utan de faktiska orden
+- class = orden
+- vad ska vi ha för k i knn? testa för att optimera minsta som fungerar
+    - skapa algoritm som räknar instanser av ord så vi kan se var man vill börja
+-   1: skapa en loop som delar upp varje ord i sin egen array
+    2: använd knn i den arrayn, så lär den sig hur orden ser ut
+    => nu kommer den förhoppningsvis kunna fylla tomma celler korrekt i test-datan
+
+#########################################################
+#johans chooser till plot
+data_array = train_head.to_numpy()
+
+#print(data_array)
+
+#dear upp datan inför visualisering
+def chooser(j):
+  choice = nan_word # here the nan_word is chosen to be plotted
+  return j[-1] == choice #kollar sista värdet i listan för att se om det är rätt gest
+
+gest_all = list(filter(chooser,data_array)) #filter(funktion, iterable) tar en funktion och en lista med data och kör den genom en funktion och listar de objekt som får ett True
+print(gest_all) #om man vill kolla att man får ut rätt gest
+
+
 #########################################################
 # välj ord och kolla om de är nan/null
 # print(train_head['index'].nunique)
@@ -10,3 +72,53 @@ for x in range(1,30):
   if gest_all.isnull().any().any():
     print(gest_all.isnull.any())
 #########################################################
+#Denna o liknande kan vara bra om vi behöver använda arrays mer
+return arr.tolist()
+
+#########################################################
+#kollar efter nan-rows
+nan_rows = x.isna().any(axis=1)
+print(nan_rows)
+
+###########################################################################
+####### KNN ###############################################################
+###########################################################################
+
+
+# Instantiate the KNN classifier with k=3
+#knn = KNeighborsClassifier(n_neighbors=3)
+
+# Train the model using the training sets
+#knn.fit(X_train, y_train)
+
+# Predict the response for test dataset
+#y_pred = knn.predict(X_test)
+
+# Model accuracy
+#accuracy = knn.score(X_test, y_test)
+#print('KNN model accuracy: ', accuracy)
+#type(iris)
+
+##############################################
+#redundant kod
+# function to replace NaN elements with mean of non-NaN elements in a list (like the ones just above)
+def replace_nan_with_mean(lst):
+  # converts list to a NumPy array to handle NaN values
+  arr = np.array(lst, dtype=float)
+
+  # calculates the mean of non-NaN elements in the array
+  mean_value = np.nanmean(arr)
+
+  # replace NaN elements in the array with list mean
+  arr[np.isnan(arr)] = mean_value
+
+  # convert the array back to a list
+  return arr.tolist()
+
+# iterate over each dictionary
+for dictionary in [x_values, y_values, z_values]:
+  # iterate over each list in the dictionary
+  for key, value in dictionary.items():
+    # replace NaN elements with mean in the list
+    dictionary[key] = replace_nan_with_mean(value)
+
