@@ -262,7 +262,7 @@ train_label = np.array(train_label)
 train_label = np.ravel(train_label)
 
 train = train * 10 ** 10
-train = train.astype(int)
+train = np.int64(train)
 
 # test data
 test = test_head.iloc[:, 0:60]
@@ -271,13 +271,8 @@ test_label = test_label.astype(str)
 test_label = np.array(test_label)
 test_label = np.ravel(test_label)
 test = test * 10 ** 10
-test = test.astype(int)
+test = np.int64(test)
 
-# check if there are any NaN values in gest_all
-if test.isna().any().any():
-    print("knn-set contains NaN elements")
-else:
-    print("knn-set does not contain NaN elements")
 
 # Train a KNN model with default model hyperparameters
 knn = KNeighborsClassifier(n_neighbors=20)
