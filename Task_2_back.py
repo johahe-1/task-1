@@ -280,7 +280,6 @@ knn.fit(train, train_label)
 
 # Make predictions on the testing set
 pred = knn.predict(test)
-print("svar", pred)
 
 print("we want the square of datapoints:", (len(test_label)) ** (1 / 2))
 
