@@ -280,7 +280,7 @@ knn.fit(train, train_label)
 
 # Make predictions on the testing set
 pred = knn.predict(test)
-
+print('hi')
 print("we want the square of datapoints:", (len(test_label)) ** (1 / 2))
 
 # use twice the square of the datapoints to look for the optimized k-value
@@ -302,6 +302,7 @@ for k in ks:
 
 # Choose the optimal k (minimal error)
 optimal_k = ks[np.argmin(errors)]
+
 print(f'Optimal k: {optimal_k}')
 
 # Plot the error curve
