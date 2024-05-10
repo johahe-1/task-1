@@ -1,4 +1,4 @@
-import task_2_back
+import
 
 import sklearn
 from sklearn.neighbors import KNeighborsClassifier
