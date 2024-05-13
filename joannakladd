@@ -2,11 +2,6 @@
 
 för task 2
 ####från labben##########
-
-
-
-
-
 #check for NaN values in base joints
 # Initialize lists to collect column data
 x_data, y_data, z_data = [], [], []
