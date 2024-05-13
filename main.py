@@ -62,7 +62,7 @@ train_blind = pd.DataFrame(data=train_blind, dtype=np.float64)
 all_data = [train_head, test_head]
 
 
-def nanremove (all_data):
+def nanremove(all_data):
     for df in range(len(all_data)):
         '''
         #checks if dataframes has NaN-elements
@@ -104,7 +104,7 @@ def nanremove (all_data):
                 gest = gest_all.iloc[i]
                 gest_xyz = gest.iloc[0:120] # <-- this is the frame we choose
 
-          # extracts index from column names
+            # extracts index from column names
                 for column in gest_xyz.index:
                     index = int(column.split('_')[1]) # chooses all column-indexes in interval
 
@@ -115,7 +115,6 @@ def nanremove (all_data):
                         y_values.setdefault(index, []).append(gest_xyz[column])
                     elif column.startswith('z'):
                         z_values.setdefault(index, []).append(gest_xyz[column])
-
 
         # now finally replace all NaN in the main dataframe
         # iterate over each dictionary
@@ -135,4 +134,6 @@ def nanremove (all_data):
     return all_data
 
 
-all_data_processed = nanremove(all_data)  # Float
+all_data_processed = nanremove(all_data)  # filetype = float64
+train_processed = all_data_processed[0]
+test_processed = all_data_processed[1]
