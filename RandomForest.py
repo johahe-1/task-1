@@ -59,6 +59,7 @@ def random_forest_2(x, y):
     print("Accuracy:", accuracy)
 
 
+
 # TA BORT KOORDINATERNA
 
 # random_forest_2(train_processed, test_processed)
