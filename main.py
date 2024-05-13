@@ -136,5 +136,3 @@ def nanremove (all_data):
 
 
 all_data_processed = nanremove(all_data)  # Float
-
-
