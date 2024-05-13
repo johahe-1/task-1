@@ -1,66 +1,54 @@
 # modules
 import numpy as np
 
-from main import train_processed
-from main import test_processed
 
-########################### bootstrapping #################################
-
-# function to perform bootstrapping on a dataframe
-def bootstrap(data, n_bootstrap_samples):
+def bootstrap(data, n):
+    # function to perform bootstrapping on a dataframe
     bootstrap_samples = []
     n_rows = len(data)
 
-    for _ in range(n_bootstrap_samples):
+    for _ in range(n):
         # Sample rows with replacement
         bootstrap_sample = data.sample(n=n_rows, replace=True)
         bootstrap_samples.append(bootstrap_sample)
 
     return bootstrap_samples
 
-# number of bootstrap samples
-n_bootstrap_samples = 10
 
-# perform bootstrapping
-bootstrap_samples = bootstrap(train_processed, n_bootstrap_samples)
+def knn_prep(data):
+    # test data is sorted into coordinates and labels (not bootstrapped)
+    test = data.iloc[:, 0:180]
+    test = test * 10 ** 10
+    test = test.astype(int)
 
-# print the first few rows of the first bootstrap sample as an example
-#print(bootstrap_samples[0].head())
-# compare to the original df
-#print(train_head)
-
-#############data preparation of bootstrapped samples###############################
-
-# test data is sorted into coordinates and labels (not bootstrapped)
-test = test_processed.iloc[:, 0:180]
-test = test * 10 ** 10
-test = test.astype(int)
     # labels in separate array
-test_label = test_processed.iloc[:, -1]
-test_label = test_label.astype(str)
-test_label = np.array(test_label)
-test_label = np.ravel(test_label)
+    test_label = data.iloc[:, -1]
+    test_label = test_label.astype(str)
+    test_label = np.array(test_label)
+    test_label = np.ravel(test_label)
+
+    return test, test_label
 
 
-# separate lists for coordinates and labels
-bootstrapped_train = {}
-bootstrapped_train_labels ={}
+def bootstrap_dict(stroke, n):
+    bootstrap_samples = bootstrap(stroke, n)
+    # separate lists for coordinates and labels
+    bootstrapped_train = {}
+    bootstrapped_train_labels = {}
 
-# a loop that puts coordinates and labels in respective list
-for i in range(len(bootstrap_samples)):
-    # training data
-    boot_gesture = bootstrap_samples[i].iloc[:, 0:180]
-    boot_gesture = boot_gesture * 10 ** 10
-    boot_gesture = boot_gesture.astype(int)
-    bootstrapped_train[i] = boot_gesture
+    # a loop that puts coordinates and labels in respective list
+    for i in range(len(bootstrap_samples)):
+        # training data
+        boot_gesture = bootstrap_samples[i].iloc[:, 0:180]
+        boot_gesture = boot_gesture * 10 ** 10
+        boot_gesture = boot_gesture.astype(int)
+        bootstrapped_train[i] = boot_gesture
 
         # training data labels
-    boot_gesture_label = bootstrap_samples[i].iloc[:, -1]
-    boot_gesture_label = boot_gesture_label.astype(str)
-    boot_gesture_label = np.array(boot_gesture_label)
-    boot_gesture_label = np.ravel(boot_gesture_label)
-    bootstrapped_train_labels[i] = boot_gesture_label
+        boot_gesture_label = bootstrap_samples[i].iloc[:, -1]
+        boot_gesture_label = boot_gesture_label.astype(str)
+        boot_gesture_label = np.array(boot_gesture_label)
+        boot_gesture_label = np.ravel(boot_gesture_label)
+        bootstrapped_train_labels[i] = boot_gesture_label
 
-#print(bootstrap_samples[1])
-#print(bootstrapped_train[1])
-#print(bootstrapped_train_labels[1])
+    return bootstrapped_train, bootstrapped_train_labels
