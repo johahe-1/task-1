@@ -62,8 +62,8 @@ train_blind = pd.DataFrame(data=train_blind, dtype=np.float64)
 all_data = [train_head, test_head]
 
 
-def nanremove(all_data):
-    for df in range(len(all_data)):
+def nanremove(data):
+    for df in range(len(data)):
         '''
         #checks if dataframes has NaN-elements
         if all_data[df].isna().any().any():
@@ -72,7 +72,7 @@ def nanremove(all_data):
             print("DataFrame does not contain NaN elements")
         '''
         # find rows with NaN values anywhere in the DataFrame
-        rows_with_nan = all_data[df][all_data[df].isna().any(axis=1)]
+        rows_with_nan = data[df][data[df].isna().any(axis=1)]
 
         # display the words of 'word' column for rows with NaN values
         words_with_nan = rows_with_nan[['word','index']]
@@ -85,7 +85,7 @@ def nanremove(all_data):
             # print(f"Word: {nan_word}, Index: {row['index']}")
 
         # here all instances of the word are stored in gest_all
-            gest_all = all_data[df][all_data[df]['index'] == nan_word]
+            gest_all = data[df][data[df]['index'] == nan_word]
             # print(gest_all)
 
         # check if there are any NaN values in the DataFrame for frame 1 of 'word'
@@ -124,14 +124,16 @@ def nanremove(all_data):
                 # get the column name
                 column_name = f'{prefix}_{index}'
                 # replace NaN values with the mean of non-NaN values for the corresponding column in main dataframe
-                all_data[df][column_name].fillna(np.nanmean(values), inplace=True)
+                data[df][column_name].fillna(np.nanmean(values), inplace=True)
                 # for element in main dataframe all NaN are now replaced with the mean of respective list
+        '''
         # checks again if the modified dataframe train_head contains any NaN
         if all_data[df].isna().any().any():
             print("DataFrame still contains NaN elements")
         else:
             print("DataFrame does not contain NaN elements anymore")
-    return all_data
+        '''
+    return data
 
 
 all_data_processed = nanremove(all_data)  # filetype = float64

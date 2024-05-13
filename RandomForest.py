@@ -1,8 +1,8 @@
 # Data Processing
 import pandas as pd
 import numpy as np
-from Task_2_back import test_head
-from Task_2_back import train_head
+from main import test_processed
+from main import train_processed
 
 # Modelling
 from sklearn.ensemble import RandomForestClassifier
@@ -61,6 +61,6 @@ def random_forest_2(x, y):
 
 # TA BORT KOORDINATERNA
 
-random_forest_2(train_head, test_head)
+random_forest_2(train_processed, test_processed)
 
 # def random_forest_visualization():
