@@ -1,4 +1,4 @@
-import Task_2_back
+from main import
 
 ######################### plotting of 3d skeleton #########################
 
