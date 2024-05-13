@@ -4,9 +4,6 @@
 
 # Import packages
 import warnings # removes annoying error message
-
-import bootstrap
-
 warnings.simplefilter(action='ignore', category=FutureWarning) # removes annoying error message
 import pandas as pd # Matte
 import numpy as np # Matte
@@ -15,7 +12,8 @@ import matplotlib.pyplot as plt # Visualisering
 
 # Import filer
 import dataplot
-import RandomForest
+# import RandomForest
+import bootstrap
 
 # path to data from directory
 train = pd.read_csv('train-final.csv',encoding='latin-1',sep=',')
@@ -148,4 +146,6 @@ train_processed = all_data_processed[0]
 test_processed = all_data_processed[1]
 
 
-bootstrap_samples = bootstrap.bootstrap(train_processed, 10)
+#bootstrap_samples = bootstrap.bootstrap(train_processed, 10)
+#mamma1, mamma2 = bootstrap.bootstrap_dict(train_processed, 2)
+

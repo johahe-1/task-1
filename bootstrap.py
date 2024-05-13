@@ -18,7 +18,7 @@ def bootstrap(data, n):
 def knn_prep(data):
     # test data is sorted into coordinates and labels (not bootstrapped)
     test = data.iloc[:, 0:180]
-    test = test * 10 ** 10
+    test = test * 10 ** 8  # obs skär bort en decimal
     test = test.astype(int)
 
     # labels in separate array
@@ -30,8 +30,8 @@ def knn_prep(data):
     return test, test_label
 
 
-def bootstrap_dict(stroke, n):
-    bootstrap_samples = bootstrap(stroke, n)
+def bootstrap_dict(data, n):
+    bootstrap_samples = bootstrap(data, n)
     # separate lists for coordinates and labels
     bootstrapped_train = {}
     bootstrapped_train_labels = {}
@@ -40,7 +40,7 @@ def bootstrap_dict(stroke, n):
     for i in range(len(bootstrap_samples)):
         # training data
         boot_gesture = bootstrap_samples[i].iloc[:, 0:180]
-        boot_gesture = boot_gesture * 10 ** 10
+        boot_gesture = boot_gesture * (10 ** 8)  # obs, skär bort 1 decimal
         boot_gesture = boot_gesture.astype(int)
         bootstrapped_train[i] = boot_gesture
 

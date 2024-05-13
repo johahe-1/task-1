@@ -61,6 +61,6 @@ def random_forest_2(x, y):
 
 # TA BORT KOORDINATERNA
 
-random_forest_2(train_processed, test_processed)
+# random_forest_2(train_processed, test_processed)
 
 # def random_forest_visualization():
