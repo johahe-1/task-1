@@ -13,7 +13,8 @@ import matplotlib.pyplot as plt # Visualisering
 # Import filer
 import dataplot
 # import RandomForest
-import bootstrap
+# import bootstrap
+import knn
 
 # path to data from directory
 train = pd.read_csv('train-final.csv',encoding='latin-1',sep=',')
@@ -148,4 +149,4 @@ test_processed = all_data_processed[1]
 
 #bootstrap_samples = bootstrap.bootstrap(train_processed, 10)
 #mamma1, mamma2 = bootstrap.bootstrap_dict(train_processed, 2)
-
+# knn.rknn(train_processed, test_processed, 500)
