@@ -2,13 +2,17 @@
 ############### IMPORTS AND DATA #########################################
 ###########################################################################
 
-# Imports
+# Import packages
 import warnings # removes annoying error message
 warnings.simplefilter(action='ignore', category=FutureWarning) # removes annoying error message
 import pandas as pd # Matte
 import numpy as np # Matte
 import matplotlib as plt # Visualisering
 import matplotlib.pyplot as plt # Visualisering
+
+# Import filer
+import dataplot
+import RandomForest
 
 # path to data from directory
 train = pd.read_csv('train-final.csv',encoding='latin-1',sep=',')
@@ -139,3 +143,6 @@ def nanremove(data):
 all_data_processed = nanremove(all_data)  # filetype = float64
 train_processed = all_data_processed[0]
 test_processed = all_data_processed[1]
+
+
+
