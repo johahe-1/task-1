@@ -1,5 +1,4 @@
 # modules
-import pandas
 import numpy as np
 
 from task_2_clean import train_head
@@ -7,14 +6,14 @@ from task_2_clean import test_head
 
 ########################### bootstrapping #################################
 
-# Function to perform bootstrapping on a DataFrame
-def bootstrap(train_head, n_bootstrap_samples):
+# function to perform bootstrapping on a dataframe
+def bootstrap(data, n_bootstrap_samples):
     bootstrap_samples = []
-    n_rows = len(train_head)
+    n_rows = len(data)
 
     for _ in range(n_bootstrap_samples):
         # Sample rows with replacement
-        bootstrap_sample = train_head.sample(n=n_rows, replace=True)
+        bootstrap_sample = data.sample(n=n_rows, replace=True)
         bootstrap_samples.append(bootstrap_sample)
 
     return bootstrap_samples
@@ -30,9 +29,9 @@ bootstrap_samples = bootstrap(train_head, n_bootstrap_samples)
 # compare to the original df
 #print(train_head)
 
-#################### data preparation ####################################
+#############data preparation of bootstrapped samples###############################
 
-# test data is sorted into coordinates and labels
+# test data is sorted into coordinates and labels (not bootstrapped)
 test = test_head.iloc[:, 0:180]
 test = test * 10 ** 10
 test = test.astype(int)
@@ -46,7 +45,6 @@ test_label = np.ravel(test_label)
 # separate lists for coordinates and labels
 bootstrapped_train = {}
 bootstrapped_train_labels ={}
-
 
 # a loop that puts coordinates and labels in respective list
 for i in range(len(bootstrap_samples)):
