@@ -10,7 +10,7 @@ import matplotlib.pyplot as pltplot  # Visualisering
 import bootstrap
 
 
-def rknn(train_processed, test_processed, maxrange):
+def rknn(train_data, test_data, maxrange):
     # a loop that tests a range of k values and chooses optimal by accuracy score
 
     # empty list for storing mean_squared_error score
@@ -23,13 +23,13 @@ def rknn(train_processed, test_processed, maxrange):
     ks = [x for x in range(1, maxrange) if x % 2 != 0]
 
     # data
-    bs_train, bs_train_label = bootstrap.bootstrap_dict(train_processed, 10)
-    test, test_label = bootstrap.knn_prep(test_processed)
+    train, train_label = bootstrap.bootstrap_dict(train_data, 10, 100)
+    test, test_label = bootstrap.knn_prep(test_data)
 
     for k in ks:
-        for i in bs_train.keys():
+        for i in train.keys():
             knn = KNeighborsClassifier(n_neighbors=k)
-            knn.fit(bs_train[i], bs_train_label[i])
+            knn.fit(train[i], train_label[i])
         label_pred = knn.predict(test)
         error = mean_squared_error(test_label, label_pred)
         errors.append(error)
