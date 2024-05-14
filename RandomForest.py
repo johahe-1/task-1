@@ -62,6 +62,16 @@ def random_forest_2(train_data, test_data):
     accuracy = accuracy_score(y_test, y_pred)
     print("Accuracy random forest:", accuracy)
 
+    for i in range(3):
+        tree = rf_model.estimators_[i]
+        tree_rules = export_text(tree, feature_names=train.columns.tolist(), max_depth=2)
+        print(f"Tree {i + 1}:\n{tree_rules}")
+
+        # Plots the tree structure
+        plt.figure(figsize=(10, 6))
+        tree.plot_tree(tree, feature_names=train.columns, filled=True, max_depth=2, proportion=True)
+        plt.show()
+
 
 # def random_forest_visualization():
 
