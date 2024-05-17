@@ -4,8 +4,6 @@ import numpy as np
 from main import test_processed
 from main import train_processed
 
-import bootstrap
-
 # Modelling
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score, ConfusionMatrixDisplay
@@ -16,62 +14,54 @@ from scipy.stats import randint
 from sklearn.tree import export_graphviz
 from IPython.display import Image
 import graphviz
-from sklearn.tree import export_text
-import matplotlib.pyplot as plt
 
 # Data
 
 
-def dataprep(train_df, test_df):
+def dataprep(train):
+    y = train['index']
+    x = train.drop(['index', 'word'], axis=1)
+    print(f'x : {x.shape}')
 
-    train_features = train_df.iloc[:, :-1].values.tolist()
-    train_target = train_df.iloc[:, -1].values.tolist()
-    train = (train_features, train_target)
-
-    test_features = test_df.iloc[:, :-1].values.tolist()
-    test_target = test_df.iloc[:, -1].values.tolist()
-    test = (test_features, test_target)
-
-    return train, test
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=101)
+    print(f'x_train : {x_train.shape}')
+    print(f'y_train : {y_train.shape}')
+    print(f'x_test : {x_test.shape}')
+    print(f'y_test : {y_test.shape}')
+    return x_train, x_test, y_train, y_test
 
 
-def random_forest_2(train, test):
-    train, train_target = bootstrap.knn_prep(train)
-    test, test_target = bootstrap.knn_prep(test)
+'''
+def random_forest(train, test):
+    rf = RandomForestClassifier()
+    rf.fit(train)
+    pred = rf.predict(test)
+    accuracy = accuracy_score(test, pred)
+    print(f'Accuracy: {accuracy}')
+
+    test_pred = rf.predict(test)
+
+
+random_forest(train_blind, test_blind)
+'''
+
+
+def random_forest_2(x, y):
+    x_train, x_test, y_train, y_test = dataprep(x)
 
     rf_model = RandomForestClassifier()
-    rf_model.fit(train, train_target)
+    rf_model.fit(x_train, y_train)
 
-    pred = rf_model.predict(test)
-
-    accuracy = accuracy_score(pred, test_target)
+    rf_classifier = RandomForestClassifier(n_estimators=100, random_state=20)
+    rf_classifier.fit(x_train, y_train)
+    y_pred = rf_classifier.predict(x_test)
+    accuracy = accuracy_score(y_test, y_pred)
     print("Accuracy:", accuracy)
 
-    # Need better plot with graph
-    for i in range(3):
-        tree = rf_model.estimators_[i]
-        tree_rules = export_text(tree, feature_names=train.columns.tolist(), max_depth=2)
-        print(f"Tree {i + 1}:\n{tree_rules}")
-
-        # Plots the tree structure
-        plt.figure(figsize=(10, 6))
-        tree.plot_tree(tree, feature_names=train.columns, filled=True, max_depth=2, proportion=True)
-        plt.show()
 
 
-random_forest_2(train_processed, test_processed)
+# TA BORT KOORDINATERNA
 
+# random_forest_2(train_processed, test_processed)
 
-'''
-def random_forest_visualization():
-    for i in range(3):
-        tree = rf.estimators_[i]
-        dot_data = export_graphviz(tree,
-                                   feature_names=X_train.columns,
-                                   filled=True,
-                                   max_depth=2,
-                                   impurity=False,
-                                   proportion=True)
-        graph = graphviz.Source(dot_data)
-        display(graph)
-'''
+# def random_forest_visualization():
