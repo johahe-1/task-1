@@ -5,15 +5,16 @@
 # Import packages
 import warnings # removes annoying error message
 warnings.simplefilter(action='ignore', category=FutureWarning) # removes annoying error message
+warnings.filterwarnings("ignore") # ignorera RuntimeWarning error och annat från bootstrap
 import pandas as pd # Matte
 import numpy as np # Matte
-import matplotlib as plt # Visualisering
 import matplotlib.pyplot as plt # Visualisering
+from scipy.stats import bootstrap
 
 # Import filer
 import dataplot
-# import RandomForest
-# import bootstrap
+from RandomForest import random_forest_2
+import bootstrap as boo
 import knn
 
 # path to data from directory
@@ -47,25 +48,14 @@ reshaped_train = np.reshape(train.values, (-1, train.shape[-1]))
 test_head = pd.DataFrame(reshaped_test, columns=names)
 train_head = pd.DataFrame(reshaped_train, columns=names)
 
-###########################################################################
-# PREPARING DATA FOR ALGORITHMS ###########################################
-###########################################################################
 
-# here the data is prepared for testing and training
-# hides the 'word'- and 'index'-columns
-train_blind = train_head.drop(['word', 'index'], axis=1)
-test_blind = test_head.drop(['word', 'index'], axis=1)
-
-# makes everything into the same datatype
-test_blind = pd.DataFrame(data=test_blind, dtype=np.float64)
-train_blind = pd.DataFrame(data=train_blind, dtype=np.float64)
 
 ###########################################################################
 # REMOVING NAN ELEMENTS ####### ###########################################
 ###########################################################################
 
 # stores both dataframes in a dictionary so that they can be accessed in a loop
-all_data = [train_head, test_head]
+all_data = [train_head, test_head ]
 
 
 def nanremove(data):
@@ -142,11 +132,27 @@ def nanremove(data):
     return data
 
 
-all_data_processed = nanremove(all_data)  # filetype = float64
-train_processed = all_data_processed[0]
-test_processed = all_data_processed[1]
+# now we have labled and unlabeled data without any nan-values
+all_data_processed = nanremove(all_data)
+
+train_processed_word = all_data_processed[0]
+test_processed_word = all_data_processed[1]
+train_processed = all_data_processed[0].drop(columns=['word'])
+test_processed = all_data_processed[1].drop(columns=['word'])
 
 
-# bootstrap_samples = bootstrap.bootstrap(train_processed, 10)
-# mamma1, mamma2 = bootstrap.bootstrap_dict(train_processed, 2)
-# knn.rknn(train_processed, test_processed, 500)
+#bootstrap_samples = boo.samp_rep(train_processed, 10, 100)
+#data, labels = boo.bootstrap_dict(train_processed, 10, 100)
+
+#print(data,labels)
+
+#knn.rknn(train_processed, test_processed, 50)
+
+random_forest_2(train_processed,test_processed)
+
+#not very diverse distribution
+#bootstrap_samples = boo.samp_rep(train_processed, 5, 100)
+#boo.boot_stats(bootstrap_samples)
+
+# wider distribution but unable to extract samples
+#boo.bootstrapper(train_processed, 5)
