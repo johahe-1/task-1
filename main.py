@@ -14,7 +14,7 @@ from scipy.stats import bootstrap
 # Import filer
 import dataplot
 from RandomForest import random_forest_2
-import boo as boo
+import bootstrap as boo
 import knn
 
 # path to data from directory

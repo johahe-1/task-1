@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 
 import matplotlib as plt  # Visualisering
 import matplotlib.pyplot as pltplot  # Visualisering
-import boo
+import bootstrap
 
 
 def rknn(train_processed, test_processed, maxrange):
