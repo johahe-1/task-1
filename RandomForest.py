@@ -50,15 +50,14 @@ random_forest(train_blind, test_blind)
 
 
 def random_forest_2(train_data, test_data):
-    x_train, y_train = boo.bootstrap_dict(train_data, 10, 100)
+    x_train, y_train = boo.knn_prep(train_data)
     x_test, y_test = boo.knn_prep(test_data)
 
-    for i in x_train.keys():
-        rf_model = RandomForestClassifier()
-        rf_model.fit(x_train[i], y_train[i])
+    rf_model = RandomForestClassifier()
+    rf_model.fit(x_train, y_train)
 
-        rf_classifier = RandomForestClassifier(n_estimators=100, random_state=20)
-        rf_classifier.fit(x_train[i], y_train[i])
+    rf_classifier = RandomForestClassifier(n_estimators=100, random_state=20)
+    rf_classifier.fit(x_train, y_train)
 
     y_pred = rf_classifier.predict(x_test)
     accuracy = accuracy_score(y_test, y_pred)
@@ -70,9 +69,9 @@ def random_forest_2(train_data, test_data):
         print(f"Tree {i + 1}:\n{tree_rules}")
 
         # Plots the tree structure
-        plt.figure(figsize=(10, 6))
-        tree.plot_tree(tree, feature_names=x_test.columns, filled=True, max_depth=2, proportion=True)
-        plt.show()
+        #plt.figure(figsize=(10, 6))
+        #tree.plot_tree(tree, feature_names=x_test.columns, filled=True, max_depth=2, proportion=True)
+        #plt.show()
 
 
 # def random_forest_visualization():

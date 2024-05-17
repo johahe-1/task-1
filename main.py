@@ -150,9 +150,12 @@ test_processed = all_data_processed[1].drop(columns=['word'])
 
 random_forest_2(train_processed,test_processed)
 
+
 #not very diverse distribution
 #bootstrap_samples = boo.samp_rep(train_processed, 5, 100)
 #boo.boot_stats(bootstrap_samples)
 
 # wider distribution but unable to extract samples
 #boo.bootstrapper(train_processed, 5)
+#boot_samples = boo.bootstrapper(train_processed, 5)
+#print(type(boot_samples))

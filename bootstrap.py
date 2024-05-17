@@ -37,12 +37,6 @@ def bootstrapper(data, samples):
     data = data.iloc[:10, 1:240] * (10 ** 8)
     data = data.astype(int)
 
-    dist = norm(loc=2, scale=4)
-    std_true = dist.std()  # the true value of the statistic
-    print('std_true:', std_true)
-
-    std_sample = np.std(data)  # the sample statistic
-    print('std_sample:', std_sample)
 
     rng = np.random.default_rng()
     data = (data,)  # samples must be in a sequence
@@ -50,11 +44,12 @@ def bootstrapper(data, samples):
                     random_state=rng)
 
     fig, ax = plt.subplots()
-    ax.hist(res.bootstrap_distribution, bins=10)
+    ax.hist(res.bootstrap_distribution, bins=20)
     ax.set_title('Bootstrap Distribution')
     ax.set_xlabel('statistic value')
     ax.set_ylabel('frequency')
     plt.show()
+
 
 # data prep of bootstrapped data for classifiers
 def knn_prep(data):
