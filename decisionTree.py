@@ -10,5 +10,10 @@ from main import test_processed
 from main import train_processed
 
 
+def dectree(train, test):
 
 
+
+
+
+dectree(train_processed, test_processed)
